@@ -65,6 +65,15 @@ def _write_parquet(df: pd.DataFrame, path: Path) -> None:
     ]
     for c in json_cols:
         df[c] = df[c].map(lambda v: json.dumps(v) if _is_nested(v) else None)
+    # Mixed scalar types (e.g. a manager id "1001444, 5279" for co-managers among
+    # integer ids) cannot be stored in one Arrow column; store those as strings.
+    for c in df.columns:
+        if c in json_cols or df[c].dtype != object:
+            continue
+        try:
+            pa.array(df[c], from_pandas=True)
+        except (pa.ArrowInvalid, pa.ArrowTypeError):
+            df[c] = df[c].map(lambda v: None if pd.isna(v) else str(v))
     table = pa.Table.from_pandas(df, preserve_index=False)
     meta = dict(table.schema.metadata or {})
     meta[_JSON_META_KEY] = json.dumps(json_cols).encode()
@@ -94,6 +103,11 @@ def _cached(path: Path, fetch, refresh: bool) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 # Loading
 # ---------------------------------------------------------------------------
+
+def load_competitions(refresh: bool = False) -> pd.DataFrame:
+    """Load (and cache) the list of competition seasons in StatsBomb Open Data."""
+    return _cached(RAW_DIR / "competitions.parquet", sb.competitions, refresh)
+
 
 def load_matches(
     competition_id: int = COMPETITION_ID,
