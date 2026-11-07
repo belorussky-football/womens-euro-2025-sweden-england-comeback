@@ -3,7 +3,8 @@
 Every chart in the project uses the same small palette:
 
 * ``neutral``  - one grey for ordinary events,
-* ``accent``   - one colour for shots (and other highlighted, non-goal events),
+* ``accent``   - one colour for shots (and other highlighted, non-goal events);
+  ``accent_secondary`` is a lighter tint of it for secondary, de-emphasised marks,
 * ``goal``     - the strongest colour, reserved for goals,
 
 on a white background with light grey pitch lines. The accent/goal pair was checked
@@ -28,11 +29,14 @@ COLORS = {
     "neutral": "#9a9994",
     "neutral_edge": "#2b2b2a",
     "accent": "#2a78d6",
+    "accent_secondary": "#7aa9e3",  # lighter tint of accent for secondary sequences
     "goal": "#eb6834",
     "text": "#1b1b1a",
     "text_secondary": "#52514e",
     "text_muted": "#7a7975",
 }
+
+PRESSURE_RING_WIDTH = 2.8  # edge width marking "under pressure" events
 
 FONT_SIZES = {"title": 13.5, "subtitle": 10.5, "label": 9, "legend": 9.5, "footer": 8.5}
 
@@ -98,10 +102,16 @@ def add_title(fig: Figure, title: str, subtitle: str | None = None,
                  fontsize=FONT_SIZES["subtitle"], color=COLORS["text_secondary"])
 
 
-def add_footer(fig: Figure, text: str = DATA_CREDIT) -> None:
-    """Data credit at the bottom left; the bottom right is left free for the StatsBomb logo."""
-    fig.text(0.04, 0.025, text, ha="left", va="bottom", fontsize=FONT_SIZES["footer"],
-             color=COLORS["text_muted"])
+def add_footer(fig: Figure, text: str = DATA_CREDIT, note: str | None = None) -> None:
+    """Data credit at the bottom left, with an optional second line (``note``) below it.
+
+    The bottom right is left free for the StatsBomb logo.
+    """
+    fig.text(0.04, 0.034 if note else 0.025, text, ha="left", va="bottom",
+             fontsize=FONT_SIZES["footer"], color=COLORS["text_muted"])
+    if note:
+        fig.text(0.04, 0.014, note, ha="left", va="bottom", fontsize=FONT_SIZES["footer"],
+                 color=COLORS["text_muted"])
 
 
 def add_attack_arrow(ax: plt.Axes, label: str, y: float = 83.5,
@@ -114,15 +124,16 @@ def add_attack_arrow(ax: plt.Axes, label: str, y: float = 83.5,
 
 
 def label(ax: plt.Axes, text: str, xy: tuple[float, float], xytext: tuple[float, float],
-          color: str | None = None, weight: str = "normal") -> None:
+          color: str | None = None, weight: str = "normal", ha: str = "left") -> None:
     """Text label with a thin leader line from ``xytext`` back to the point ``xy``.
 
-    The text starts at ``xytext`` (left-aligned); the leader line leaves from the
-    end of the text nearest to the point, so it never crosses the label.
+    ``ha="left"`` starts the text at ``xytext``; ``ha="right"`` ends it there. The
+    leader line leaves from the end of the text nearest to the point, so it never
+    crosses the label. Labels may sit outside the pitch (they are not clipped).
     """
     relpos = (1.0, 0.5) if xy[0] > xytext[0] else (0.0, 0.5)
     ax.annotate(
-        text, xy=xy, xytext=xytext, ha="left", va="center",
+        text, xy=xy, xytext=xytext, ha=ha, va="center", annotation_clip=False,
         fontsize=FONT_SIZES["label"], fontweight=weight, color=COLORS["text"],
         bbox=dict(boxstyle="round,pad=0.25", fc=COLORS["background"], ec="none", alpha=0.9),
         arrowprops=dict(arrowstyle="-", color=color or COLORS["text_muted"], lw=0.8,

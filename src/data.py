@@ -388,6 +388,11 @@ def in_penalty_box(x: pd.Series, y: pd.Series) -> pd.Series:
     return (x >= 102) & (y >= 18) & (y <= 62)
 
 
+def relative_path(path: Path) -> Path:
+    """``path`` relative to the project root, for printing (no local directories in outputs)."""
+    return Path(path).resolve().relative_to(PROJECT_ROOT)
+
+
 def save_processed(df: pd.DataFrame, name: str) -> Path:
     """Save a prepared table to ``data/processed/{name}.parquet`` and return the path."""
     path = PROCESSED_DIR / f"{name}.parquet"
