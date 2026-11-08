@@ -36,6 +36,10 @@ COLORS = {
     "text_muted": "#7a7975",
 }
 
+# Fixed team colours for every chart that compares the two teams (validated pair:
+# CVD protan ΔE 21.6, normal-vision ΔE 32.3, both >= 3:1 contrast on white).
+TEAM_COLORS = {"England": "#e34948", "Sweden": "#2a78d6"}
+
 PRESSURE_RING_WIDTH = 2.8  # edge width marking "under pressure" events
 
 FONT_SIZES = {"title": 13.5, "subtitle": 10.5, "label": 9, "legend": 9.5, "footer": 8.5}
@@ -81,6 +85,17 @@ def make_pitch(
     pitch.draw(ax=ax)
     fig.set_facecolor(COLORS["background"])
     return pitch, fig, ax
+
+
+def style_line_axes(ax: plt.Axes) -> None:
+    """Recessive axes for line/step charts: no top/right spines, light horizontal grid."""
+    for side in ("top", "right"):
+        ax.spines[side].set_visible(False)
+    for side in ("left", "bottom"):
+        ax.spines[side].set_color(COLORS["pitch_line"])
+    ax.tick_params(colors=COLORS["text_secondary"], labelsize=FONT_SIZES["label"])
+    ax.grid(axis="y", color=COLORS["pitch_line"], linewidth=0.6, alpha=0.6)
+    ax.set_axisbelow(True)
 
 
 def to_attacking_frame(x, y):
