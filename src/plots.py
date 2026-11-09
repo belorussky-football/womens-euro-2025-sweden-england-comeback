@@ -71,6 +71,17 @@ def make_pitch(
     ``axes_rect`` (left, bottom, width, height in figure fractions) keeps a band
     free above the pitch for the title, subtitle and legend.
     """
+    fig = plt.figure(figsize=figsize)
+    pitch, ax = add_pitch(fig, axes_rect)
+    fig.set_facecolor(COLORS["background"])
+    return pitch, fig, ax
+
+
+def add_pitch(fig: Figure, axes_rect: tuple[float, float, float, float]) -> tuple[Pitch, plt.Axes]:
+    """Draw one project-style pitch (see ``make_pitch``) on new axes at ``axes_rect`` of ``fig``.
+
+    Use it directly for figures with several pitches side by side.
+    """
     pitch = Pitch(
         pitch_type="statsbomb",
         pitch_color=COLORS["background"],
@@ -80,11 +91,9 @@ def make_pitch(
         pad_bottom=6,
         pad_top=2,
     )
-    fig = plt.figure(figsize=figsize)
     ax = fig.add_axes(axes_rect)
     pitch.draw(ax=ax)
-    fig.set_facecolor(COLORS["background"])
-    return pitch, fig, ax
+    return pitch, ax
 
 
 def style_line_axes(ax: plt.Axes) -> None:
@@ -118,14 +127,14 @@ def add_title(fig: Figure, title: str, subtitle: str | None = None,
 
 
 def add_footer(fig: Figure, text: str = DATA_CREDIT, note: str | None = None) -> None:
-    """Data credit at the bottom left, with an optional second line (``note``) below it.
+    """Data credit at the bottom left, with optional extra lines (``note``, split on newlines) below it.
 
     The bottom right is left free for the StatsBomb logo.
     """
-    fig.text(0.04, 0.034 if note else 0.025, text, ha="left", va="bottom",
-             fontsize=FONT_SIZES["footer"], color=COLORS["text_muted"])
-    if note:
-        fig.text(0.04, 0.014, note, ha="left", va="bottom", fontsize=FONT_SIZES["footer"],
+    lines = [text] + (note.split("\n") if note else [])
+    bottoms = [0.025] if len(lines) == 1 else [0.014 + 0.02 * i for i in reversed(range(len(lines)))]
+    for line, bottom in zip(lines, bottoms):
+        fig.text(0.04, bottom, line, ha="left", va="bottom", fontsize=FONT_SIZES["footer"],
                  color=COLORS["text_muted"])
 
 
