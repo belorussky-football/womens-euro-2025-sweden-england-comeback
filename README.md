@@ -4,9 +4,13 @@
 
 Sweden led 2–0 after 25 minutes. England equalised with two goals in under two minutes (79', 81'), survived extra time and won a shootout in which only 5 of 14 kicks went in. This project uses StatsBomb Open Data to ask one question about that match: was England's comeback a miracle, or the result of the right coaching decisions?
 
+For coaches: a one-page summary of what to take from this match is in [COACH_NOTE.md](COACH_NOTE.md).
+
 ## Short answer
 
-**Both, in sequence.** Coaching decisions created the comeback. After Chloe Kelly came on at 77:33, England's xG per shot jumped from 0.06 to 0.31, and two of her three crosses led to both goals. But England only reached the semi-final because of moments the staff could not control: Hannah Hampton's save at 2–0 against Sweden's best chance of the match, and a shootout in which Sweden missed three kicks without a save.
+**Both, in sequence.** The comeback coincided with England's coaching decisions. After Chloe Kelly came on at 77:33, England's xG per shot jumped from 0.06 to 0.31, and two of her three crosses led to both goals, which is consistent with the substitutions working. But the post-Kelly window is only 16 minutes and 4 shots, and it overlaps with Mead and Agyemang already on the pitch, England chasing the game and possible Swedish fatigue, so the data cannot isolate the effect of the substitutions. England only reached the semi-final because of moments the staff could not control: Hannah Hampton's save at 2–0 against Sweden's best chance of the match, and a shootout in which Sweden missed three kicks without a save.
+
+![H2](figures/02_h2_cumulative_xg.png)
 
 | # | Hypothesis | Verdict |
 |---|---|---|
@@ -118,13 +122,14 @@ Baseline A: in-game penalties at Women's EURO 2025 (8 of 14, 57%). Baseline B: s
 
 ## Conclusion
 
-The comeback was built by decisions: the substitutions changed the quality of England's chances, and Kelly's deliveries produced both goals. But it only became a win because of moments outside the staff's control: one save at 2–0 and a shootout that Sweden lost twice from winning positions. The miracle was not that England came back — it was that they were still alive to do it.
+The comeback coincided with England's decisions: the quality of England's chances rose after the substitutions, and two of Kelly's deliveries led to both goals, which is consistent with the changes working. The post-Kelly window is only 16 minutes and 4 shots, though, and it overlaps with Mead and Agyemang already on the pitch, England chasing the game and possible Swedish fatigue. But it only became a win because of moments outside the staff's control: one save at 2–0 and a shootout that Sweden lost twice from winning positions. The miracle was not that England came back — it was that they were still alive to do it.
 
 ## Limitations
 
 - **One match.** Every finding describes this game, not a general rule.
 - **Small samples.** 3–4 shots per xG window, 4 crosses after Kelly came on, 14 shootout kicks and small baselines.
 - **xG model.** StatsBomb's xG differs from Opta and UEFA figures published elsewhere. Open data has pre-shot xG only, no post-shot xG, so save difficulty cannot be measured.
+- **Rebounds.** Shot xG counts rebounds separately: Mead's blocked header and Agyemang's rebound are one possession (0.69 summed, 0.60 combined as 1 − Π(1 − xG)). Possession-level totals (periods 1–4): England 1.81 (1.91 summed), Sweden 1.72 (1.73 summed). The charts use summed shot xG.
 - **Pressure.** StatsBomb's `under_pressure` flag is set only on the event where the ball is lost, so 17% is a lower bound.
 - **Average positions** blur shapes that form only in moments, and the H3 result depends on the method.
 - **Event data errors.** StatsBomb's tagging is not perfect, which is why key moments were checked against video (below).
@@ -153,11 +158,15 @@ The comeback was built by decisions: the substitutions changed the quality of En
 │   ├── data.py                  loading, caching, time windows
 │   └── plots.py                 shared style and team colours
 ├── figures/                     the six charts
+├── assets/                      StatsBomb logo for the README
+├── COACH_NOTE.md                one-page summary for coaches
 ├── CLAUDE.md                    project rules for the AI assistant
 └── requirements.txt
 ```
 
 ## How to run
+
+Requires Python 3.14.6 (the version used in the project's `.venv`).
 
 ```bash
 python -m venv .venv
@@ -172,6 +181,4 @@ Data is downloaded and cached on the first run (data/ is not tracked by git).
 
 ---
 
-Data: StatsBomb Open Data.
-
-<!-- TODO: add the StatsBomb logo from their Media Pack here -->
+Data: StatsBomb Open Data &nbsp; <a href="https://statsbomb.com"><img src="assets/statsbomb_logo.png" alt="StatsBomb" height="24" align="absmiddle"></a>
