@@ -171,9 +171,16 @@ def label(ax: plt.Axes, text: str, xy: tuple[float, float], xytext: tuple[float,
     )
 
 
+OUTER_PAD_IN = 0.3  # same outer white margin (inches) on every saved figure
+
+
 def save_figure(fig: Figure, name: str, dpi: int = 300) -> Path:
-    """Save ``fig`` to ``figures/{name}.png`` and return the path."""
+    """Save ``fig`` to ``figures/{name}.png`` and return the path.
+
+    The figure is cropped to its content plus ``OUTER_PAD_IN`` on every side, so all charts share
+    the same outer margin. The footer is the lowest element, so the bottom-right corner stays free.
+    """
     FIGURES_DIR.mkdir(exist_ok=True)
     path = FIGURES_DIR / f"{name}.png"
-    fig.savefig(path, dpi=dpi, facecolor=fig.get_facecolor())
+    fig.savefig(path, dpi=dpi, facecolor=fig.get_facecolor(), bbox_inches="tight", pad_inches=OUTER_PAD_IN)
     return path
