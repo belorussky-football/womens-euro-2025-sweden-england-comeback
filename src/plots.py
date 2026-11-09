@@ -18,7 +18,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.figure import Figure
-from mplsoccer import Pitch
+from mplsoccer import Pitch, VerticalPitch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 FIGURES_DIR = PROJECT_ROOT / "figures"
@@ -77,12 +77,15 @@ def make_pitch(
     return pitch, fig, ax
 
 
-def add_pitch(fig: Figure, axes_rect: tuple[float, float, float, float]) -> tuple[Pitch, plt.Axes]:
+def add_pitch(fig: Figure, axes_rect: tuple[float, float, float, float], vertical: bool = False,
+              half: bool = False, **pitch_kwargs) -> tuple[Pitch, plt.Axes]:
     """Draw one project-style pitch (see ``make_pitch``) on new axes at ``axes_rect`` of ``fig``.
 
-    Use it directly for figures with several pitches side by side.
+    Use it directly for figures with several pitches side by side. ``vertical=True`` attacks
+    upwards, ``half=True`` shows only the attacking half; ``pitch_kwargs`` override the defaults
+    (e.g. the pads).
     """
-    pitch = Pitch(
+    kwargs = dict(
         pitch_type="statsbomb",
         pitch_color=COLORS["background"],
         line_color=COLORS["pitch_line"],
@@ -91,6 +94,8 @@ def add_pitch(fig: Figure, axes_rect: tuple[float, float, float, float]) -> tupl
         pad_bottom=6,
         pad_top=2,
     )
+    kwargs.update(pitch_kwargs)
+    pitch = (VerticalPitch if vertical else Pitch)(half=half, **kwargs)
     ax = fig.add_axes(axes_rect)
     pitch.draw(ax=ax)
     return pitch, ax
