@@ -8,12 +8,12 @@ Football analytics project on Sweden vs England, UEFA Women's EURO 2025 quarter-
 Every chart and every paragraph must serve this question. If something does not help answer it, leave it out.
 
 ## Hypotheses (status as of now)
-- H1 England mostly lost the ball on their own, but both Sweden goals came from pressing and a tackle — chart done (figures/01_h1_turnovers.png).
-- H2 England's big chances came after Kelly came on (xG per shot 0.06 → 0.31); the triple substitution added tempo, not quality — chart done (figures/02_h2_cumulative_xg.png).
-- H3 Did England switch to a 3-4-3? Bronze pushed up, James dropped deeper; average positions show no back three — chart done (figures/03_h3_pass_networks.png).
-- H4 Crossing strategy after Kelly came on — to do.
-- H5 Hampton kept England alive — to do.
-- H6 The shootout was mostly luck (Sweden's misses are the outlier) — to do.
+- H1 England lost the ball on their own; Sweden punished them — partly supported: most losses were unforced, but both goals came from Swedish pressing and a tackle (figures/01_h1_turnovers.png).
+- H2 The substitutions improved England's chances — supported: quality jumped after Kelly came on (xG per shot 0.06 → 0.31); the triple substitution added tempo, not quality (figures/02_h2_cumulative_xg.png).
+- H3 England switched to a 3-4-3 — not supported: Bronze pushed up and James dropped deeper, but average positions show no back three (figures/03_h3_pass_networks.png).
+- H4 England's crossing changed after Kelly came on — partly supported: no more crosses, but two decisive deliveries (figures/04_h4_crosses.png).
+- H5 Hampton kept England alive — partly supported: only 4 saves, but one at 2–0 stopped Sweden's best chance (figures/05_h5_hampton.png).
+- H6 The shootout was decided by Sweden's misses — partly supported: Sweden were the bigger outlier, with 3 misses that needed no save (figures/06_h6_shootout.png).
 
 ## Data
 - StatsBomb Open Data via statsbombpy: competition_id=53, season_id=315 (event and 360 data).
