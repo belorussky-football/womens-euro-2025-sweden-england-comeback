@@ -62,7 +62,7 @@ England's xG per shot by window, all starting with Sweden 2–0 up except extra 
 
 ![H3](figures/03_h3_pass_networks.png)
 
-Tactical write-ups described England's comeback shape as a 3-4-3 in possession. Pass networks before any substitution (0–69:09, 272 passes) and after Kelly came on (77:33–103:42, 76 passes) show:
+[Tactical analysis (Coaches' Voice)](https://learning.coachesvoice.com/cv/sweden-england-euro-2025-tactical-analysis/) described England's comeback shape as a 3-4-3 in possession. Pass networks before any substitution (0–69:09, 272 passes) and after Kelly came on (77:33–103:42, 76 passes) show:
 
 - Bronze moved 13.5 yards higher and much narrower (24.5 yards from the touchline instead of 7).
 - James dropped 12 yards deeper, but stayed 14 yards ahead of Walsh, not beside her.
@@ -92,8 +92,8 @@ Tactical write-ups described England's comeback shape as a 3-4-3 in possession. 
 ![H5](figures/05_h5_hampton.png)
 
 - Sweden had 13 shots (1.73 xG); 5 were on target (1.11 xG): 2 goals, 3 saves. Hampton also saved one shot that was going wide.
-- By volume, the hypothesis fails: Sweden scored more than their xG (2 vs 1.73).
-- By timing, it holds: at 55', with Sweden 2–0 up, Hampton saved Blackstenius's 0.39 xG chance, Sweden's best of the match. A third goal would have made the later substitutions irrelevant. She also saved at 45+1' (2–0) and 88' (2–2).
+- By volume, the case is weak: 4 saves worth 0.57 xG, while 2 of 5 on-target shots (1.11 xG) went in. Open data has no post-shot xG, so save difficulty cannot be measured.
+- By timing, it holds: at 55', with Sweden 2–0 up, Hampton saved Blackstenius's 0.39 xG chance, Sweden's best of the match. A third goal at 55' would have left England needing three goals to draw. She also saved at 45+1' (2–0) and 88' (2–2).
 - For balance: Hampton's miscontrol at 5' led to a Sweden shot (see H1).
 
 **Verdict: partly supported** — the case rests on timing, not volume.
@@ -132,6 +132,7 @@ The comeback was built by decisions: the substitutions changed the quality of En
 ## Validation
 
 - Notebook 01 checks the data against known facts: goal minutes and scorers, the final score, substitutions and the shootout.
+- One check is flagged rather than forced: Kelly's substitution is listed as 77' in some reports and 78' in others; the data has 77:33. This is a clock-convention difference, not a data error.
 - **Video:** the 2' Sweden goal and the 81' England goal were checked frame by frame. Both match the event data; video confirmed that Angeldal (no. 16), not Asllani, blocked Walsh's pass.
 - **Press:** the shootout kick order matches the ESPN match report (14 of 14).
 

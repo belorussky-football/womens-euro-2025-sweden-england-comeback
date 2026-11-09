@@ -20,7 +20,7 @@ Every chart and every paragraph must serve this question. If something does not 
 - Raw data is cached in data/raw/, prepared tables in data/processed/. Both are git-ignored.
 - Notebook 01 = loading and validation, 02 = analysis tables per hypothesis, 03 = figures.
 - Coordinates: each team's events are stored in that team's own attacking direction. When plotting both teams on one pitch, convert the opponent with x' = 120 − x, y' = 80 − y and check the result.
-- Known data notes: StatsBomb's under_pressure flag is set only on the event where the ball is lost (lower bound of pressure). Key goal sequences were checked against video: the 2' goal started with Asllani's press on Carter, then Angeldal's block on Walsh's pass.
+- Known data notes: StatsBomb's under_pressure flag is set only on the event where the ball is lost (lower bound of pressure). Key goal sequences were checked against video: the 2' goal started with Asllani's press on Carter, then Angeldal's block on Walsh's pass. The 81' England goal was also checked against video: Kelly's cross, Mead's header blocked, Agyemang scored from the rebound. Matches the event data.
 
 ## Working rules
 1. Explain the plan first, then write code. Before any non-trivial change, state in a few lines what you will do and which tables you will use.
