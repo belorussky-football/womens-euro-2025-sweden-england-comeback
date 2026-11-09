@@ -3,3 +3,6 @@ data/
 __pycache__/
 .venv/
 .DS_Store
+.agents/
+.claude/
+skills-lock.json
